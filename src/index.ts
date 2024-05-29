@@ -12,10 +12,25 @@ import {GeminiModel} from "./geminiModel";
 import {VectorSearch} from "./vectorSearch";
 import * as fs from "fs";
 
+function readText(file: string) {
+    const text = fs.readFileSync(file, {encoding: 'utf-8'});
+    const paragraphs = text.split('\n\n');
+    const sentences = paragraphs
+        .filter((paragraph) => paragraph.length > 0)
+        .map((paragraph) => {
+            const [head, ...rest] = paragraph.split('\n');
+            return rest
+                .filter((line) => line.length > 0)
+                .map((line) => head + '/' + line);
+        })
+        .flat()
+    return sentences
+}
+
 async function updateIndex() {
     // generate embeddings
     const embeddings = new TextEmbeddingGeckoModel(endpointUSCentral, project, hostedZone, publisher)
-    const sentences = ['A storm is coming tomorrow.', 'Klaus is a small man', 'The cat is on the roof.', 'The weather is sunny.', 'All cats likes fish.', 'Tom is a cat.'];
+    const sentences = readText(__dirname + /../ + 'woelfe.txt');
     const vectors = await embeddings.generateEmbeddings(sentences);
     embeddings.writeToFile(embeddingsFile, vectors, sentences);
 
@@ -34,7 +49,7 @@ async function updateIndex() {
 
 async function runQuery() {
     // do some search
-    const query = 'Wer ist Klaus?';
+    const query = 'Was fressen Wölfe?';
 
     // create vector for query
     const embeddings = new TextEmbeddingGeckoModel(endpointUSCentral, project, hostedZone, publisher)
