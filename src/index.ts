@@ -77,8 +77,8 @@ async function runQuery() {
     // Use gemini to create readable answer.
     const prompt=`You are an expert question answering system, I'll give you question and context and you'll return the answer. Query : ${query} Contexts : ${context}`;
     const geminiModelHelper = new GeminiModel(project, hostedZone);
-    const answers = await geminiModelHelper.generateContentGemini(prompt);
-    console.log(`\nGot answer: ${JSON.stringify(answers)}`);
+    const answer = await geminiModelHelper.generateContentGemini(prompt);
+    console.log(`\nGot answer: ${JSON.stringify(answer)}`);
 }
 
 updateIndex().then(() => {

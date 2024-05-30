@@ -34,8 +34,7 @@ export class GeminiModel {
         const response = result.response;
         console.log('Generated content: ', JSON.stringify(response, null, 2));
 
-        const answers = response.candidates
-            .map((candidate) => candidate.content.parts.map((part) => part.text));
-        return answers;
+        const answer = response.candidates[0].content.parts[0].text;
+        return answer;
     }
 }
