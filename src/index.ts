@@ -81,7 +81,7 @@ async function runQuery() {
     console.log(`\nGot answer: ${JSON.stringify(answer)}`);
 }
 
-updateIndex().then(() => {
+/*updateIndex().then(() => {
     runQuery()
-});
-//runQuery();
+});*/
+runQuery();
